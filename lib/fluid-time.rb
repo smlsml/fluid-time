@@ -238,7 +238,7 @@ class FluidTime
 
   def strip_zero
     @build = @build.strip.split.tap do |parts|
-      parts << parts.pop.tap { |last| last.replace(last.gsub('/^0/','').gsub(':00','')) }
+      parts << parts.pop.tap { |last| last.replace(last.gsub(/^0/,'').gsub(':00','')) }
     end.join(' ') + ' '
     self
   end

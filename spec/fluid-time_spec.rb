@@ -10,4 +10,8 @@ describe "FluidTime" do
     FluidTime.new(today).to_date.should eql(today)
   end
 
+  it "strips zeros" do
+    FluidTime.new.txt('01').xz.to_s.should eql('1')
+  end
+
 end
