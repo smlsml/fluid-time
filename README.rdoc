@@ -1,25 +1,25 @@
-= fluid-time
+== fluid-time
 
 Stop formatting time like a C-anderthal.  Craft human readable time formats like building a sentence.
 
-```ruby
+=begin
 FluidTime.new.month.hour.tc.minute.tc.second
 FluidTime.new(Date.today).weekday.month.year
-```
+=end
 
 Do things like strip zeros, ordinalize and change case with ease (ordinalize only works if you've included rails for now)
-```ruby
+
+=begin
 FluidTime.new.time.pm.zone.to_s
 # 09:51:29 PM PDT
 
 FluidTime.new.time.xz.xs.pm.down.zone.to_s
 # 9:51:51pm PDT
-```
+=end
 
 REMEMBER to end your chains with .to_s or use in a string "Today is #{FluidTime.new.weekday.upper}"
 
-
-```ruby
+=begin
 FluidTime.demo
 # FluidTime.new.   to_time.to_s                      Tue Apr 10 21:46:11 -0700 2012
 # FluidTime.new.   to_date.to_s                                          2012-04-10
@@ -58,7 +58,7 @@ FluidTime.demo
 # FluidTime.new.   _('symbols').lb.tp.ts.tc.ts.tn.ts.td.rb.to_s    symbols[. , : -]
 # FluidTime.new.   _('symbols').lb.sp.ss.sc.ss.sn.ss.sd.rb.to_s    symbols[. , : -]
 # FluidTime.new.   db.to_s                                      2012-04-10 21:09:11
-```
+=end
 
 == Contributing to fluid-time
  
