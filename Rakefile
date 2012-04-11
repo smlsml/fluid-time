@@ -18,7 +18,11 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/smlsml/fluid-time"
   gem.license = "MIT"
   gem.summary = %Q{A fluent interface for formatting ruby time}
-  gem.description = %Q{Stop formatting time like a C-anderthal.  Craft human readable time formats like building a sentence. FluidTime.new.month.hour.tc.minute.tc.second}
+  gem.description = %Q{Stop formatting time like a C-anderthal.  Craft human readable time formats like building a sentence.
+
+> FluidTime.new('2012/04/12 9:22').month.day.th.sc.ss.year.txt('@').time.xz.pm.zone.to_s
+# April 12th, 2012 @ 09:22 AM PDT
+}
   gem.email = "smlsml@gmail.com"
   gem.authors = ["Steve Lawson"]
   # dependencies defined in Gemfile
