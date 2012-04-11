@@ -85,6 +85,11 @@ class FluidTime
   end
   alias :txt :cat
   alias :_ :cat
+  
+  def set(str, sep = ' ')
+    @build = str.to_s + sep
+    self
+  end
 
 
   ##### Formats
@@ -206,41 +211,36 @@ class FluidTime
   ##### Modifiers
 
   def th
-    @build = @build.strip.split.tap do |parts|
+    set @build.strip.split.tap do |parts|
       parts << parts.pop.tap { |last| last.replace( numeric?(last) ? ordinalize(last) : last) }
-    end.join(' ') + ' '
-    self
+    end.join(' ')
   end
 
   def ytt
-    @build = @build.gsub('-', '/').split.tap do |parts|
+    set @build.gsub('-', '/').split.tap do |parts|
       parts.each_with_index do |part, index|
         date = Date.parse(part) rescue nil
         parts[index] = 'Today' if date.is_a?(Date) && date.to_s == Date.today.to_s
         parts[index] = 'Tomorrow' if date.is_a?(Date) && date.to_s == Date.tomorrow.to_s
         parts[index] = 'Yesterday' if date.is_a?(Date) && date.to_s == Date.yesterday.to_s
       end
-    end.join(' ') + ' '
-    self
+    end.join(' ')
   end
 
   def down
-    @build = @build.split.tap { |parts| parts << parts.pop.downcase }.join(' ') + ' '
-    self
+    set @build.split.tap { |parts| parts << parts.pop.downcase }.join(' ')
   end
   alias :lower :down
 
   def up
-    @build = @build.split.tap { |parts| parts << parts.pop.upcase }.join(' ') + ' '
-    self
+    set @build.split.tap { |parts| parts << parts.pop.upcase }.join(' ')
   end
   alias :upper :up
 
   def strip_zero
-    @build = @build.strip.split.tap do |parts|
+    set @build.strip.split.tap do |parts|
       parts << parts.pop.tap { |last| last.replace(last.gsub(/^0/,'').gsub(':00','')) }
-    end.join(' ') + ' '
-    self
+    end.join(' ')
   end
   alias :xz :strip_zero
 
@@ -273,11 +273,11 @@ class FluidTime
   ##### Presets
 
   def db
-    self.Y.td.m.td.d.H.tn.I.tn.S
+    self.Y.dash.m.dash.d.H.colon.I.colon.S
   end
 
   def usdate
-    self.mm.tl.d.tl.Y
+    self.mm.slash.d.slash.Y
   end
 
   def Ymd
@@ -285,15 +285,15 @@ class FluidTime
   end
 
   def Y_m_d
-    self.Y.td.mm.td.d
+    self.Y.dash.mm.dash.d
   end
 
   def time
-    self.hour.tn.minute.tn.second
+    self.hour.colon.minute.colon.second
   end
 
   def date
-    self.mon.sl.day.sl.year
+    self.mon.slash.day.slash.year
   end
 
   #####
