@@ -2,8 +2,9 @@
 
 Stop formatting time like a C-anderthal.  Craft human readable time formats like building a sentence.
 
-    FluidTime.new.month.hour.tc.minute.tc.second
+    FluidTime.new.month.hour.colon.minute.colon.second
     FluidTime.new(Date.today).weekday.month.year
+    FluidTime.new('04/05/2012 09:45:23').weekday.month.year
 
 Do things like strip zeros, ordinalize and change case with ease (ordinalize only works if you've included rails for now)
 
