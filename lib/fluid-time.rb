@@ -212,7 +212,7 @@ class FluidTime
 
   def th
     set(@build.strip.split.tap do |parts|
-      parts << parts.pop.tap { |last| last.replace( numeric?(last) ? ordinalize(last) : last) }
+      parts << parts.pop.tap { |last| last.replace(numeric?(last) ? ordinalize(last) : last) }
     end.join(' '))
   end
 
