@@ -211,36 +211,36 @@ class FluidTime
   ##### Modifiers
 
   def th
-    set @build.strip.split.tap do |parts|
+    set(@build.strip.split.tap do |parts|
       parts << parts.pop.tap { |last| last.replace( numeric?(last) ? ordinalize(last) : last) }
-    end.join(' ')
+    end.join(' '))
   end
 
   def ytt
-    set @build.gsub('-', '/').split.tap do |parts|
+    set(@build.gsub('-', '/').split.tap do |parts|
       parts.each_with_index do |part, index|
         date = Date.parse(part) rescue nil
         parts[index] = 'Today' if date.is_a?(Date) && date.to_s == Date.today.to_s
         parts[index] = 'Tomorrow' if date.is_a?(Date) && date.to_s == Date.tomorrow.to_s
         parts[index] = 'Yesterday' if date.is_a?(Date) && date.to_s == Date.yesterday.to_s
       end
-    end.join(' ')
+    end.join(' '))
   end
 
   def down
-    set @build.split.tap { |parts| parts << parts.pop.downcase }.join(' ')
+    set(@build.split.tap {|parts| parts << parts.pop.downcase}.join(' '))
   end
   alias :lower :down
 
   def up
-    set @build.split.tap { |parts| parts << parts.pop.upcase }.join(' ')
+    set(@build.split.tap {|parts| parts << parts.pop.upcase}.join(' '))
   end
   alias :upper :up
 
   def strip_zero
-    set @build.strip.split.tap do |parts|
+    set(@build.strip.split.tap do |parts|
       parts << parts.pop.tap { |last| last.replace(last.gsub(/^0/,'').gsub(':00','')) }
-    end.join(' ')
+    end.join(' '))
   end
   alias :xz :strip_zero
 
