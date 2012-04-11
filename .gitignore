@@ -19,7 +19,7 @@ pkg
 .idea
 
 # ignore rvmrc
-.rvmc
+.rvmrc
 
 # Have editor/IDE/OS specific files you need to ignore? Consider using a global gitignore: 
 #
