@@ -1,11 +1,15 @@
+require "date"
+require "time"
+
 class FluidTime
 
   def initialize(input = Time.now)
     @build = ""
+    @last_was_space = false
 
     @time = nil
     @time = input if input.is_a?(Time)
-    @time = input.to_time if input.is_a?(Date)
+    @time = input.to_time if input.is_a?(Date) && input.methods.include?(:to_time)
     @time = Time.parse(input.to_s) if @time.nil?
   end
 
@@ -15,7 +19,7 @@ class FluidTime
       to_date
       A.tday.weekday
       weekday.up
-      b.mmm.mon
+      b.mmm.smonth
       B.month
       c
       full
@@ -23,53 +27,59 @@ class FluidTime
       e.mday
       mmm.d.th.year
       year.mmm.d.th
-      H.hh24.mhour.hhour24
-      I.hh12.hhour.hhour12
-      l.h12.hour.hour12
+      H.h24.hour24
+      I.h12.hour.hour12
+      l
       j.yday.day_of_year
-      m.mm.month_of_year
+      m.mm.mon.month_of_year
       M.min.minute
-      p.xm.am.pm
-      time.ns.p.down
+      p.am.pm
+      time.xs.p.down
       S.sec.second
       U.th.txt('week')
-      W.th.cs._('min')
+      W.th.tc.ts._('min')
       w
-      x.date
-      X.time
+      x.autodate
+      X.autotime
+      date
+      time
       y.yy.sy
       Y.year
       Z.zone.timezone
+      txt('01').xz
+      txt('1:00').xz.xs.pm.lower.zone
       _('braces').lb.lp.lc.rc.rp.rb
-      _('symbols').lb.tp.tc.tn.ts.td.rb
+      _('symbols').lb.tp.ts.tc.ts.tn.ts.td.rb
+      _('symbols').lb.sp.ss.sc.ss.sn.ss.sd.rb
       db
     }.each {|ex| "FluidTime.new.   #{ex}.to_s".tap {|str| p str + (" %#{80 - str.length}s" % eval(str))} }
     nil
   end
 
 
-  #####
+  ##### Helpers
 
 
   def to_s
-    hold = @build
+    hold = @build.strip
     @build = ""
-    hold.blank? ? @time.to_s : hold.strip
+    '' == hold ? @time.to_s : hold
   end
 
   def to_time
     @time
   end
 
+  def to_date
+    Date.new(@time.year, @time.month, @time.day)
+  end
+
   def <=>(o)
     self.to_s <=> o.to_s
   end
 
-  def to_date
-    @time.to_date
-  end
-
-  def cat(str = ',', sep = ' ')
+  def cat(str, sep = ' ')
+    @last_was_space = ' ' == str
     @build += str.to_s + sep
     self
   end
@@ -77,8 +87,7 @@ class FluidTime
   alias :_ :cat
 
 
-  #####
-
+  ##### Formats
 
   def a; cat @time.strftime('%a') end      # %a - The abbreviated weekday name (``Sun'')
   alias :ddd :a
@@ -92,7 +101,7 @@ class FluidTime
 
   def b; cat @time.strftime('%b') end      # %b - The abbreviated month name (``Jan'')
   alias :mmm :b
-  alias :mon :b
+  alias :smonth :b
 
 
   def B; cat @time.strftime('%B') end      # %B - The  full  month  name (``January'')
@@ -104,31 +113,29 @@ class FluidTime
 
 
   def d; cat @time.strftime('%d') end      # %d - Day of the month (01..31)
-  alias :dd :A
-  alias :day :A
+  alias :dd :d
+  alias :day :d
   alias :num :d
 
 
   def e; cat @time.strftime('%e') end      # %e - Day of the month (1..31)
-  alias :mday :e
+  alias :mday :e                           # included for completeness, should use day.xz (strip zero)
 
 
   def H; cat @time.strftime('%H') end      # %H - Hour of the day, 24-hour clock (00..23)
-  alias :hh24 :H
-  alias :mhour :H
-  alias :hhour24 :H
+  alias :h24 :H                            # use h24.xz to remove leading zero
+  alias :hour :H
+  alias :hour24 :H
 
 
   def I; cat @time.strftime('%I') end      # %I - Hour of the day, 12-hour clock (01..12)
-  alias :hh12 :I
-  alias :hhour :I
-  alias :hhour12 :I
+  alias :h12 :I                            # use h12.xz to remove leading zero
+  alias :hour :I
+  alias :hour12 :I
 
 
   def l; cat @time.strftime('%l') end      # %l - hour, 12-hour clock, blank-padded ( 0..12)
-  alias :h12 :l
-  alias :hour :l
-  alias :hour12 :l
+                                           # included for completeness, should just use hour.xz (strip zero)
 
 
   def j; cat @time.strftime('%j') end      # %j - Day of the year (001..366)
@@ -138,6 +145,7 @@ class FluidTime
 
   def m; cat @time.strftime('%m') end      # %m - Month of the year (01..12)
   alias :mm :m
+  alias :mon :m
   alias :month_of_year :m
 
 
@@ -147,7 +155,7 @@ class FluidTime
 
 
   def p; cat @time.strftime('%p') end      # %p - Meridian indicator (``AM''  or  ``PM'')
-  alias :xm :p
+  alias :om :p
   alias :am :p
   alias :pm :p
 
@@ -174,11 +182,11 @@ class FluidTime
 
 
   def x; cat @time.strftime('%x') end      # %x - Preferred representation for the date alone, no time
-  alias :date :x
+  alias :autodate :x
 
 
   def X; cat @time.strftime('%X') end      # %X - Preferred representation for the time alone, no date
-  alias :time24 :X
+  alias :autotime :X
 
 
   def y; cat @time.strftime('%y') end      # %y - Year without a century (00..99)
@@ -195,36 +203,11 @@ class FluidTime
   alias :timezone :Z
 
 
-  ##### Symbols
-
-
-  def nospace;  @build.strip!; self end; alias :ns :nospace
-
-  def period; ns.txt '.', '' end; alias :tp :period
-  def comma;  ns.txt ',', '' end; alias :tc :comma
-  def colon;  ns.txt ':', '' end; alias :tn :colon
-  def dash;   ns.txt '-', '' end; alias :td :dash
-  def slash;  ns.txt '/', '' end; alias :tl :slash
-  def space;     txt ' '     end; alias :ts :space
-
-  def lbrace;  ns.txt '[', '' end; alias :lb :lbrace
-  def rbrace;  ns.txt ']', '' end; alias :rb :rbrace
-
-  def lcurve;  ns.txt '{', '' end; alias :lc :lcurve
-  def rcurve;  ns.txt '}', '' end; alias :rc :rcurve
-
-  def lparen;  ns.txt '(', '' end; alias :lp :lparen
-  def rparen;  ns.txt ')', '' end; alias :rp :rparen
-
-  def comma_space; ns.txt ', ' end; alias :cs :comma_space
-
-
-  #####
-
+  ##### Modifiers
 
   def th
-    @build = @build.split.tap do |parts|
-      parts << parts.pop.tap { |last| last.replace(numeric?(last) ? last.to_i.ordinalize : last) }
+    @build = @build.strip.split.tap do |parts|
+      parts << parts.pop.tap { |last| last.replace(ordinalize(last)) }
     end.join(' ') + ' '
     self
   end
@@ -241,24 +224,53 @@ class FluidTime
     self
   end
 
-
   def down
     @build = @build.split.tap { |parts| parts << parts.pop.downcase }.join(' ') + ' '
     self
   end
-
   alias :lower :down
 
   def up
     @build = @build.split.tap { |parts| parts << parts.pop.upcase }.join(' ') + ' '
     self
   end
-
   alias :upper :up
 
+  def strip_zero
+    @build = @build.strip.split.tap do |parts|
+      parts << parts.pop.tap { |last| last.replace(last.gsub('/^0/','').gsub(':00','')) }
+    end.join(' ') + ' '
+    self
+  end
+  alias :xz :strip_zero
 
-  #####
+  def strip
+    @build.strip! unless @last_was_space
+    self
+  end
+  alias :xs :strip
 
+
+  ##### Symbols (couldn't decide between: t for text and s for symbol)
+
+  def space;     txt ' ',''  end; alias :ts :space;   alias :ss :space
+  def period; xs.txt '.', '' end; alias :tp :period;  alias :sp :period
+  def comma;  xs.txt ',', '' end; alias :tc :comma;   alias :sc :comma
+  def colon;  xs.txt ':', '' end; alias :tn :colon;   alias :sn :colon
+  def dash;   xs.txt '-', '' end; alias :td :dash;    alias :sd :dash
+  def slash;  xs.txt '/', '' end; alias :tl :slash;   alias :sl :slash
+
+  def lbrace;  xs.txt '[', '' end; alias :lb :lbrace
+  def rbrace;  xs.txt ']', '' end; alias :rb :rbrace
+
+  def lcurve;  xs.txt '{', '' end; alias :lc :lcurve
+  def rcurve;  xs.txt '}', '' end; alias :rc :rcurve
+
+  def lparen;  xs.txt '(', '' end; alias :lp :lparen
+  def rparen;  xs.txt ')', '' end; alias :rp :rparen
+
+
+  ##### Presets
 
   def db
     self.Y.td.m.td.d.H.tn.I.tn.S
@@ -269,7 +281,7 @@ class FluidTime
   end
 
   def Ymd
-    self.Y.ns.mm.ns.d
+    self.Y.xs.mm.xs.d
   end
 
   def Y_m_d
@@ -277,7 +289,11 @@ class FluidTime
   end
 
   def time
-    self.hhour.tn.minute.tn.second
+    self.hour.tn.minute.tn.second
+  end
+
+  def date
+    self.mon.sl.day.sl.year
   end
 
   #####
@@ -288,5 +304,10 @@ class FluidTime
   def numeric?(string)
     true if Float(string) rescue false
   end
+
+  def ordinalize(input)
+    numeric?(input) && input.to_i.methods.include?(:ordinalize) ? input.to_i.ordinalize : input
+  end
+
 
 end

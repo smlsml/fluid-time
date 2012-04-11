@@ -21,6 +21,9 @@ pkg
 # ignore rvmrc
 .rvmrc
 
+# don't require users of this gem to be locked to same gems we are
+Gemfile.lock
+
 # Have editor/IDE/OS specific files you need to ignore? Consider using a global gitignore: 
 #
 # * Create a file at ~/.gitignore
