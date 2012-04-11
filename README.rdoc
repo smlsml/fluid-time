@@ -1,6 +1,53 @@
 = fluid-time
 
-Description goes here.
+Stop formatting time like a C-anderthal.  Craft human readable time formats like building a sentence.
+
+```ruby
+FluidTime.new.month.hour.tc.minute.tc.second
+FluidTime.new(Date.today).weekday.month.year
+```
+
+
+```ruby
+> FluidTime.demo
+FluidTime.new.   to_time.to_s                      Tue Apr 10 21:46:11 -0700 2012
+FluidTime.new.   to_date.to_s                                          2012-04-10
+FluidTime.new.   A.tday.weekday.to_s                      Tuesday Tuesday Tuesday
+FluidTime.new.   weekday.up.to_s                                          TUESDAY
+FluidTime.new.   b.mmm.smonth.to_s                                    Apr Apr Apr
+FluidTime.new.   B.month.to_s                                         April April
+FluidTime.new.   c.to_s                                  Tue Apr 10 21:46:11 2012
+FluidTime.new.   full.to_s                               Tue Apr 10 21:46:11 2012
+FluidTime.new.   d.day.num.dd.to_s                                    10 10 10 10
+FluidTime.new.   e.mday.to_s                                                10 10
+FluidTime.new.   mmm.d.th.year.to_s                                   Apr 10 2012
+FluidTime.new.   year.mmm.d.th.to_s                                   2012 Apr 10
+FluidTime.new.   H.h24.hour24.to_s                                       21 21 21
+FluidTime.new.   I.h12.hour.hour12.to_s                               09 09 09 09
+FluidTime.new.   l.to_s                                                         9
+FluidTime.new.   j.yday.day_of_year.to_s                              101 101 101
+FluidTime.new.   m.mm.mon.month_of_year.to_s                          04 04 04 04
+FluidTime.new.   M.min.minute.to_s                                       46 46 46
+FluidTime.new.   p.am.pm.to_s                                            PM PM PM
+FluidTime.new.   time.xs.p.down.to_s                                   09:46:11pm
+FluidTime.new.   S.sec.second.to_s                                       11 11 11
+FluidTime.new.   U.th.txt('week').to_s                                    15 week
+FluidTime.new.   W.th.tc.ts._('min').to_s                                 15, min
+FluidTime.new.   w.to_s                                                         2
+FluidTime.new.   x.autodate.to_s                                04/10/12 04/10/12
+FluidTime.new.   X.autotime.to_s                                21:46:11 21:46:11
+FluidTime.new.   date.to_s                                             04/10/2012
+FluidTime.new.   time.to_s                                               09:46:11
+FluidTime.new.   y.yy.sy.to_s                                            12 12 12
+FluidTime.new.   Y.year.to_s                                            2012 2012
+FluidTime.new.   Z.zone.timezone.to_s                                 PDT PDT PDT
+FluidTime.new.   txt('01').xz.to_s                                              1
+FluidTime.new.   txt('1:00').xz.xs.pm.lower.zone.to_s                     1pm PDT
+FluidTime.new.   _('braces').lb.lp.lc.rc.rp.rb.to_s                  braces[({})]
+FluidTime.new.   _('symbols').lb.tp.ts.tc.ts.tn.ts.td.rb.to_s    symbols[. , : -]
+FluidTime.new.   _('symbols').lb.sp.ss.sc.ss.sn.ss.sd.rb.to_s    symbols[. , : -]
+FluidTime.new.   db.to_s                                      2012-04-10 21:09:11
+```
 
 == Contributing to fluid-time
  
