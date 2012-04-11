@@ -11,16 +11,13 @@ Gem::Specification.new do |s|
   s.authors = ["Steve Lawson"]
   s.date = %q{2012-04-11}
   s.description = %q{Stop formatting time like a C-anderthal.  Craft human readable time formats like building a sentence.
-
-
-> FluidTime.new('2012/04/12 9:22').month.day.th.sc.ss.year.txt('@').time.xz.pm.zone.to_s
-
-# April 12th, 2012 @ 09:22 AM PDT
+ > FluidTime.new('2012/04/10 21:22').month.day.th.comma.space.xs.year.txt('@').time.xz.xs.pm.lower.zone.to_s
+=> "April 10th, 2012 @ 9:22pm PDT"
 }
   s.email = %q{smlsml@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.md"
   ]
   s.files = [
     ".document",
@@ -28,7 +25,7 @@ Gem::Specification.new do |s|
     "CHANGELOG.md",
     "Gemfile",
     "LICENSE.txt",
-    "README.rdoc",
+    "README.md",
     "Rakefile",
     "VERSION",
     "fluid-time.gemspec",
