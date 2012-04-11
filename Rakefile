@@ -17,9 +17,9 @@ Jeweler::Tasks.new do |gem|
   gem.name = "fluid-time"
   gem.homepage = "http://github.com/smlsml/fluid-time"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
-  gem.email = "steve.lawson@revolutionprep.com"
+  gem.summary = %Q{A fluent interface for formatting ruby time}
+  gem.description = %Q{Stop formatting time like a C-anderthal.  Craft human readable time formats like building a sentence. FluidTime.new.month.hour.tc.minute.tc.second}
+  gem.email = "smlsml@gmail.com"
   gem.authors = ["Steve Lawson"]
   # dependencies defined in Gemfile
 end
