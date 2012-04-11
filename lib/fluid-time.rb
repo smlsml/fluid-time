@@ -79,7 +79,7 @@ class FluidTime
   end
 
   def cat(str, sep = ' ')
-    @last_was_space = ' ' == str
+    @last_was_space = ' ' == str.to_s
     @build += str.to_s + sep
     self
   end
@@ -207,7 +207,7 @@ class FluidTime
 
   def th
     @build = @build.strip.split.tap do |parts|
-      parts << parts.pop.tap { |last| last.replace(ordinalize(last)) }
+      parts << parts.pop.tap { |last| last.replace( numeric?(last) ? ordinalize(last) : last) }
     end.join(' ') + ' '
     self
   end
@@ -305,9 +305,15 @@ class FluidTime
     true if Float(string) rescue false
   end
 
-  def ordinalize(input)
-    numeric?(input) && input.to_i.methods.include?(:ordinalize) ? input.to_i.ordinalize : input
-  end
+  def ordinalize(number)
+    return "#{number}th" if (11..13).include?(number.to_i % 100)
 
+    case number.to_i % 10
+      when 1; "#{number}st"
+      when 2; "#{number}nd"
+      when 3; "#{number}rd"
+      else    "#{number}th"
+    end
+  end
 
 end
