@@ -20,8 +20,8 @@ Jeweler::Tasks.new do |gem|
   gem.summary = %Q{A fluent interface for formatting ruby time}
   gem.description = <<-TXT
 Stop formatting time like a C-anderthal.  Craft human readable time formats like building a sentence.
- > FluidTime.new('2012/04/12 9:22').month.day.th.comma.space.xs.year.txt('@').time.xz.xs.pm.lower.zone.to_s
-=> "April 12th, 2012 @ 9:22am PDT"
+ > FluidTime.new('2012/04/10 21:22').month.day.th.comma.space.xs.year.txt('@').time.xz.xs.pm.lower.zone.to_s
+=> "April 10th, 2012 @ 9:22pm PDT"
 TXT
   gem.email = "smlsml@gmail.com"
   gem.authors = ["Steve Lawson"]

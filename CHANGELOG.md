@@ -1,7 +1,15 @@
-# April 12, 2012 @ 09:22 AM PDT
-```ruby
-FluidTime.new('2012/04/12 9:22').month.day.th.sc.ss.year.txt('@').time.xz.pm.zone.to_s
-```
+# FluidTime Changelog
+
+## [0.2.1] April 11th, 2012 @ 1:38pm PDT
+    FluidTime.new('2012/04/11 13:38').month.day.th.sc.ss.year.txt('@').time.xz.xs.pm.down.zone.to_s
+
+- Documentation improvements
+- Re-order elements in FluidTime.demo
+- Removed dashes and colons from the .db preset
+- Remove reliance on Date.tomorrow and Date.yesterday (was broken without rails)
+
+# [0.1.x] April 10th, 2012 @ 21:22 PM PDT
+    FluidTime.new('2012/04/10 21:22').month.day.th.sc.ss.year.txt('@').time.xz.pm.zone.to_s
 
 Making it ready for the first release:
 

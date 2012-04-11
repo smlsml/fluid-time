@@ -17,41 +17,45 @@ class FluidTime
     %w{
       to_time
       to_date
+      a.ddd.wday
       A.tday.weekday
-      weekday.up
       b.mmm.smonth
       B.month
       c
       full
-      d.day.num.dd
+      d.dd.day.num
       e.mday
-      mmm.d.th.year
-      year.mmm.d.th
-      H.h24.hour24
+      H.h24.mhour.hour24
       I.h12.hour.hour12
       l
       j.yday.day_of_year
       m.mm.mon.month_of_year
       M.min.minute
       p.am.pm
-      time.xs.p.down
       S.sec.second
-      U.th.txt('week')
-      W.th.tc.ts._('min')
+      U
+      W
       w
       x.autodate
       X.autotime
-      date
-      time
       y.yy.sy
       Y.year
       Z.zone.timezone
+      date
+      time
+      db
+      usdate
+      W.th.comma.space._('week')
+      date.hour.colon.min.ytt.pm
+      year.mmm.d.th
+      time.xs.p.down
       txt('01').xz
       txt('1:00').xz.xs.pm.lower.zone
       _('braces').lb.lp.lc.rc.rp.rb
       _('symbols').lb.tp.ts.tc.ts.tn.ts.td.rb
       _('symbols').lb.sp.ss.sc.ss.sn.ss.sd.rb
-      db
+      period.space.comma
+      colon.space.dash.space.slash
     }.each {|ex| "FluidTime.new.   #{ex}.to_s".tap {|str| p str + (" %#{80 - str.length}s" % eval(str))} }
     nil
   end
@@ -100,8 +104,8 @@ class FluidTime
 
 
   def A; cat @time.strftime('%A') end      # %A - The  full  weekday  name (``Sunday'')
-  alias :weekday :A
   alias :tday :A
+  alias :weekday :A
 
 
   def b; cat @time.strftime('%b') end      # %b - The abbreviated month name (``Jan'')
@@ -129,7 +133,7 @@ class FluidTime
 
   def H; cat @time.strftime('%H') end      # %H - Hour of the day, 24-hour clock (00..23)
   alias :h24 :H                            # use h24.xz to remove leading zero
-  alias :hour :H
+  alias :mhour :H
   alias :hour24 :H
 
 
@@ -221,8 +225,8 @@ class FluidTime
       parts.each_with_index do |part, index|
         date = Date.parse(part) rescue nil
         parts[index] = 'Today' if date.is_a?(Date) && date.to_s == Date.today.to_s
-        parts[index] = 'Tomorrow' if date.is_a?(Date) && date.to_s == Date.tomorrow.to_s
-        parts[index] = 'Yesterday' if date.is_a?(Date) && date.to_s == Date.yesterday.to_s
+        parts[index] = 'Tomorrow' if date.is_a?(Date) && date.to_s == (Date.today + 1).to_s
+        parts[index] = 'Yesterday' if date.is_a?(Date) && date.to_s == (Date.today - 1).to_s
       end
     end.join(' '))
   end
@@ -273,7 +277,7 @@ class FluidTime
   ##### Presets
 
   def db
-    self.Y.dash.m.dash.d.H.colon.I.colon.S
+    self.Y.m.d.H.I.S
   end
 
   def usdate
