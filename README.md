@@ -4,6 +4,10 @@ Stop formatting time like a C-anderthal.  Craft human readable time formats like
 
     FluidTime.new('2012/04/10 21:22').month.day.th.comma.space.xs.year.txt('@').time.xz.xs.pm.lower.zone.to_s
     # "April 10th, 2012 @ 9:22pm PDT"
+    
+    FluidTime.new(Time.now).to_s
+    FluidTime.new(Date.today).to_s
+    FluidTime.new("21:22:00").to_s
 
 Strip zeros, ordinalize, and change case with ease:
 
