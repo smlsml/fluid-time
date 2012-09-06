@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Steve Lawson"]
-  s.date = %q{2012-04-11}
+  s.date = %q{2012-09-05}
   s.description = %q{Stop formatting time like a C-anderthal.  Craft human readable time formats like building a sentence.
  > FluidTime.new('2012/04/10 21:22').month.day.th.comma.space.xs.year.txt('@').time.xz.xs.pm.lower.zone.to_s
 => "April 10th, 2012 @ 9:22pm PDT"
