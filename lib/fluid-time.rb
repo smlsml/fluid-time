@@ -31,7 +31,9 @@ class FluidTime
       j.yday.day_of_year
       m.mm.mon.month_of_year
       M.min.minute
-      p.am.pm
+      hour.p
+      hour.pm.txt('or').hour.am
+      hour.PM.txt('or').hour.AM
       S.sec.second
       U
       W
@@ -46,11 +48,11 @@ class FluidTime
       db
       usdate
       W.th.comma.space._('week')
-      date.hour.colon.min.ytt.pm
+      date.hour.colon.min.today.pm
       year.mmm.d.th
       time.xs.p.down
-      txt('01').xz
-      txt('1:00').xz.xs.pm.lower.zone
+      txt('01').xz.PM.zone
+      txt('1:00').xz.pm.zone
       _('braces').lb.lp.lc.rc.rp.rb
       _('symbols').lb.tp.ts.tc.ts.tn.ts.td.rb
       _('symbols').lb.sp.ss.sc.ss.sn.ss.sd.rb
@@ -164,9 +166,14 @@ class FluidTime
 
 
   def p; cat @time.strftime('%p') end      # %p - Meridian indicator (``AM''  or  ``PM'')
-  alias :om :p
-  alias :am :p
-  alias :pm :p
+  alias :AM :p
+  alias :PM :p
+
+  def pm; self.p.down end                  # lowercase am/pm
+  alias :am :pm
+
+  def xpm; self.xz.xs.pm end               # lowercase am/pm without space or leading zero on preceding number
+  alias :xam :xpm
 
 
   def S; cat @time.strftime('%S') end      # %S - Second of the minute (00..60)
@@ -230,6 +237,9 @@ class FluidTime
       end
     end.join(' '))
   end
+  alias :today :ytt
+  alias :tomorrow :ytt
+  alias :yesterday :ytt
 
   def down
     set(@build.split.tap {|parts| parts << parts.pop.downcase}.join(' '))
@@ -247,6 +257,8 @@ class FluidTime
     end.join(' '))
   end
   alias :xz :strip_zero
+  alias :x0 :strip_zero
+  alias :nozero :strip_zero
 
   def strip
     @build.strip! unless @last_was_space
